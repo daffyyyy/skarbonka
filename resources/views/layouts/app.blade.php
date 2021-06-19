@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-100">
 
 <head>
     <meta charset="utf-8">
@@ -24,12 +24,14 @@
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" referrerplicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <link rel="icon" type="image/png" href="/img/logo.png" sizes="256x256">
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
     <div id="app">
 
-        
+
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
@@ -37,17 +39,10 @@
                     {{ config('app.name', 'Laravel') }}
                 </a>
 
-                <button
-                class="navbar-toggler"
-                type="button"
-                data-mdb-toggle="collapse"
-                data-mdb-target="#navbar"
-                aria-controls="navbar"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <i class="fas fa-bars"></i>
-              </button>
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbar"
+                    aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
 
                 <div class="collapse navbar-collapse" id="navbar">
                     <!-- Left Side Of Navbar -->
@@ -55,11 +50,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('ogloszenie.index') }}">Lista ogłoszeń</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('ogloszenie.create') }}">Dodaj ogłoszenie</a>
-                        </li>
-
-
+                        @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('ogloszenie.create') }}">Dodaj ogłoszenie</a>
+                            </li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -68,13 +63,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Zaloguj') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Zarejestruj się') }}</a>
                                 </li>
                             @endif
                         @else
@@ -91,7 +86,7 @@
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                      document.getElementById('logout-form').submit();">
+                                              document.getElementById('logout-form').submit();">
                                             {{ __('Wyloguj') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -142,6 +137,7 @@
         </main>
     </div>
 
+    @include('layouts.footer')
 
     @yield('scripts')
 </body>

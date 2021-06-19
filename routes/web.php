@@ -22,9 +22,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('ogloszenie', [AnnouncementController::class, 'index'])->name('ogloszenie.index');
+
 Route::middleware('auth')->group(function () {
     Route::resource('ogloszenie', AnnouncementController::class, ['except' => [
-        'show', 'destroy'
+        'show', 'destroy', 'index'
     ]]);
     Route::delete('ogloszenie/{announcement}', [AnnouncementController::class, 'destroy'])->name('ogloszenie.destroy');
     Route::get('ogloszenie/{announcement}', [AnnouncementController::class, 'show'])->name('ogloszenie.show');
@@ -32,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('category/{category}', [AnnouncementController::class, 'category'])->name('category');
 });
 
-Route::prefix('category')->as('category.')->middleware('auth')->group(function () {
+Route::prefix('category')->as('category.')->group(function () {
     Route::get('{category}', [CategoryController::class, 'show'])->name('show');
 });
 

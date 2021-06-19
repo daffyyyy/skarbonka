@@ -3,7 +3,7 @@
 @section('title') {{ ucfirst(Request::segment(2)) }} @endsection
 
 @section('content')
-    <div class="card">
+    <div class="card mt-3">
         <div class="card-body">
             <div class="d-flex justify-content-center mb-3">
                 <ul class="nav nav-pills">
@@ -44,7 +44,7 @@
                             <div class="card-footer text-muted">
                                 {!! $announcement->user->scammer == true ? '<button class="btn btn-danger btn-sm mb-2"><i class="fas fa-exclamation-circle"></i> &nbsp;Użytkownik oznaczony jako oszust</button>' : '' !!}
                                 <br />
-                                <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span>
+                                <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span> &nbsp;
                                 przez <span class="fw-bold">{{ $announcement->user->name }}</span>
 
                             </div>
