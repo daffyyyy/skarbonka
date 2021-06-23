@@ -6,51 +6,86 @@
     <div class="card">
         <div class="card-body">
             @if ($announcement->user->scammer == true)
-            <div class="text-center mb-2 border p-2">
-                <button class="btn btn-danger btn-sm"><i class="fas fa-exclamation-circle"></i> &nbsp;Użytkownik oznaczony jako oszust</button>
-            </div>
+                <div class="text-center mb-2 border p-2">
+                    <button class="btn btn-danger btn-sm"><i class="fas fa-exclamation-circle"></i> &nbsp;Użytkownik
+                        oznaczony jako oszust</button>
+                </div>
             @endif
-            <div class="text-center border p-2">dodane przez <span class="fw-bold">{{ $announcement->user->name }}</span> <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span></div>
+            <div class="text-center border p-2">dodane przez <span class="fw-bold"><a
+                        href="{{ route('uzytkownik.show', $announcement->user) }}">{{ $announcement->user->name }}</a>
+                    @if ($announcement->user->is_vip)
+                        <span class="badge bg-warning"><i class="far fa-gem"></i> VIP</span>
+                    @endif
+                </span>
+                {!! $announcement->user->reputation >= 10 ? '<span class="badge bg-success"><i class="far fa-thumbs-up"></i> Dobra reputacja</span>' : '' !!}
+                <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span>
+            </div>
 
             <div class="row">
 
                 <div class="col-md-12">
 
                     <div class="card text-center {{ $announcement->user->scammer == true ? 'border-danger' : '' }}">
-                        <div>
-                            <img src="{{ $announcement->category()->image }}" class="img-fluid" />
+                        <div class="mt-3">
+                            <img src="{{ $announcement->category()->image }}" class="img-fluid" height="500"
+                                width="500" />
                             <br />
-                            Hosting <a href="{{ $announcement->category()->url }}"><span class="fw-bold">{{ Str::upper($announcement->category()->name) }}</span></a>
+                            Hosting <a href="{{ $announcement->category()->url }}"><span
+                                    class="fw-bold">{{ Str::upper($announcement->category()->name) }}</span></a>
                         </div>
                         <div class="card-body">
                             <h3 class="card-header mb-3 fw-bold">Informacje</h3>
                             <h4 class="card-title">{{ $announcement->title }}</h4>
                             <p class="card-text">
-                                {{ $announcement->description }}
+                                @if ($announcement->user->is_vip)
+                                    {!! nl2br($announcement->description) !!}
+                                @else
+                                    {!! nl2br(strip_tags($announcement->description)) !!}
+                                @endif
                             <div class="d-flex justify-content-center mb-3">
-                                <h5 class="text-bold"><span class="badge bg-info text-dark">{{ $announcement->amount }}
-                                        WPLN<sup>{{ $announcement->cost * $announcement->amount }} zł</sup></span></h5>
-                                <h5 class="text-bold"><span class="badge bg-warning text-dark">{{ $announcement->cost }}
-                                        zł
-                                        / 1 WPLN</span></h5>
+                                <h5 class="text-bold"><span class="badge bg-dark text-light">
+                                        @if ($announcement->amount)
+                                            {{ $announcement->amount }} WPLN
+                                            @if ($announcement->cost)
+                                                <sup>
+                                                    {{ $announcement->cost * $announcement->amount }} zł
+                                                </sup>
+                                            @endif
+                                        @else
+                                            Bez limitu
+                                        @endif
+                                    </span>
+                                </h5>
+                                <h5 class="text-bold"><span class="badge bg-success text-light">
+                                        @if ($announcement->cost)
+                                            {{ $announcement->cost }} zł / 1 PLN
+                                        @else
+                                            Brak
+                                        @endif
+                                    </span></h5>
                             </div>
                             <h3 class="card-header mb-3 fw-bold">Kontakt</h3>
-                            {!! nl2br($announcement->contact) !!}
+                            @if ($announcement->user->is_vip)
+                                {!! nl2br($announcement->contact) !!}
+                            @else
+                                {!! nl2br(strip_tags($announcement->contact)) !!}
+                            @endif
                             </p>
                         </div>
                     </div>
                     @if ($announcement->user_id === auth()->id())
-                    <div class="row mt-3">
-                        <div class="d-flex justify-content-center">
-                            <div class="card-header">Akcje</div>
-                            
-                                <button id="addTransaction" class="btn btn-success">Dodaj transakcje</button>
+                        <div class="row mt-3">
+                            <div class="d-flex justify-content-center">
+                                <div class="card-header">Akcje</div>
+
                                 <button data-bs-toggle="modal" data-bs-target="#editAnnon"
                                     class="btn btn-warning">Edytuj</button>
-                                <form method="POST" action="{{ route('ogloszenie.destroy', $announcement) }}"
+                                <form method="POST" action="{{ route('announcement.destroy', $announcement) }}"
                                     class="row g-1">
                                     @method('DELETE')
+
                                     @csrf
+
                                     <button type="submit" class="btn btn-danger">Zakończ</button>
                                 </form>
                             </div>
@@ -72,7 +107,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('ogloszenie.store') }}">
+                    <form method="POST" action="{{ route('announcement.put', $announcement) }}">
+
+                        @method('PUT')
+
                         @csrf
 
                         <div class="mb-3">
@@ -108,7 +146,8 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Kontakt') }}</label>
 
                             <textarea id="contact" type="text" class="form-control @error('contact') is-invalid @enderror"
-                                name="contact" required autocomplete="contact" autofocus>{{ $announcement->contact }}</textarea>
+                                name="contact" required autocomplete="contact"
+                                autofocus>{{ $announcement->contact }}</textarea>
 
                             @error('contact')
                                 <span class="invalid-feedback" role="alert">
@@ -118,10 +157,14 @@
                         </div>
 
                         <div class="mb-3">
+
                             <label for="amount" class="col-md-4 col-form-label text-md-right">{{ __('Ilość') }}</label>
 
-                            <input id="amount" type="number" class="form-control @error('amount') is-invalid @enderror"
-                                name="amount" value="{{ $announcement->amount }}" required autofocus>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="addon-wrapping">$</span>
+                                <input id="amount" type="number" class="form-control @error('amount') is-invalid @enderror"
+                                    name="amount" value="{{ $announcement->amount }}" required autofocus>
+                            </div>
 
                             @error('amount')
                                 <span class="invalid-feedback" role="alert">
@@ -134,9 +177,12 @@
                             <label for="cost"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Cena za 1 WPLN') }}</label>
 
-                            <input id="cost" type="number" step=".01"
-                                class="form-control @error('cost') is-invalid @enderror" name="cost"
-                                value="{{ $announcement->cost }}" required autofocus>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="addon-wrapping">$</span>
+                                <input id="cost" type="number" step=".01"
+                                    class="form-control @error('cost') is-invalid @enderror" name="cost"
+                                    value="{{ $announcement->cost }}" required autofocus>
+                            </div>
 
                             @error('cost')
                                 <span class="invalid-feedback" role="alert">
@@ -147,7 +193,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-                    <button type="button" class="btn btn-primary">Zapisz</button>
+                    <button type="submit" class="btn btn-primary">Zapisz</button>
                 </div>
                 </form>
             </div>

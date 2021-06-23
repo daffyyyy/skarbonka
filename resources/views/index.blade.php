@@ -16,8 +16,8 @@
                         lub chcesz taką sprzedać? Załóż konto i wyszukuj okazji!</p>
                     @auth
                         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                            <a href="{{ route('ogloszenie.index') }}" type="button" class="btn btn-light btn-lg px-4 gap-3">Lista ogłoszeń</a>
-                            <a href="{{ route('ogloszenie.create') }}" type="button"
+                            <a href="{{ route('announcement.index') }}" type="button" class="btn btn-light btn-lg px-4 gap-3">Lista ogłoszeń</a>
+                            <a href="{{ route('announcement.create') }}" type="button"
                                 class="btn btn-dark btn-lg px-4 gap-3">Dodaj ogłoszenie</a>
                         </div>
                     @endauth

@@ -48,11 +48,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('ogloszenie.index') }}">Lista ogłoszeń</a>
+                            <a class="nav-link" href="{{ route('announcement.index') }}">Lista ogłoszeń</a>
                         </li>
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('ogloszenie.create') }}">Dodaj ogłoszenie</a>
+                                <a class="nav-link" href="{{ route('announcement.create') }}">Dodaj ogłoszenie</a>
                             </li>
                         @endauth
                     </ul>
@@ -66,7 +66,6 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Zaloguj') }}</a>
                                 </li>
                             @endif
-
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Zarejestruj się') }}</a>
@@ -79,25 +78,41 @@
                                     {{ auth()->user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('uzytkownik.index') }}">Twój profil</a>
+                                    </li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                              document.getElementById('logout-form').submit();">
+                                                                  document.getElementById('logout-form').submit();">
                                             {{ __('Wyloguj') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                             class="d-none">
+
                                             @csrf
+                                            
                                         </form>
                                     </li>
 
                                 </ul>
                             </li>
-
+                            @if (auth()->user()->is_admin)
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('admin.category.index') }}">Kategorie</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Użytkownicy</a></li>
+                                    </ul>
+                                </li>
+                            @endif
                         @endguest
                     </ul>
                 </div>
@@ -133,7 +148,6 @@
                     @endif
                 </div>
             </div>
-
         </main>
     </div>
 

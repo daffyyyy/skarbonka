@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateAnnouncement extends FormRequest
+class UpdateAnnouncement extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,22 +35,12 @@ class CreateAnnouncement extends FormRequest
                 'string',
             ],
             'amount' => [
-                'required_unless:unlimited_amount,on',
+                'required',
                 'numeric',
-                'nullable',
-                'max:10000',
-            ],
-            'unlimited_amount' => [
-                'sometimes',
             ],
             'cost' => [
-                'required_unless:unlimited_cost,on',
+                'required',
                 'numeric',
-                'nullable',
-                'max:5',
-            ],
-            'unlimited_cost' => [
-                'sometimes',
             ],
             'contact' => [
                 'required',
@@ -58,15 +48,9 @@ class CreateAnnouncement extends FormRequest
                 'min:8',
                 'max:512',
             ],
-            'type' => [
-                'in:1,2',
+            'cost' => [
                 'required',
                 'numeric',
-            ],
-            'category_id' => [
-                'required',
-                'numeric',
-                'exists:announcements_category,id'
             ],
         ];
     }

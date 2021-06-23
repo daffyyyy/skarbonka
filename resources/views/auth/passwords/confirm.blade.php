@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title')Potwierdź konto @endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -11,6 +13,7 @@
                     {{ __('Please confirm your password before continuing.') }}
 
                     <form method="POST" action="{{ route('password.confirm') }}">
+                        
                         @csrf
 
                         <div class="form-group row">

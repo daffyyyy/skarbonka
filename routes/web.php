@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,27 +16,45 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Strona główna
 Route::get('/', function () {
     return view('index');
 })->name('home');
 
-Auth::routes();
+// Autoryzacja
+Auth::routes(['verify' => true]);
 
-Route::get('ogloszenie', [AnnouncementController::class, 'index'])->name('ogloszenie.index');
+// Lista ogłoszeń, bez middleware, aby goście mogli zobaczyć
+Route::get('ogloszenia', [AnnouncementController::class, 'index'])->name('announcement.index');
 
-Route::middleware('auth')->group(function () {
-    Route::resource('ogloszenie', AnnouncementController::class, ['except' => [
-        'show', 'destroy', 'index'
-    ]]);
-    Route::delete('ogloszenie/{announcement}', [AnnouncementController::class, 'destroy'])->name('ogloszenie.destroy');
-    Route::get('ogloszenie/{announcement}', [AnnouncementController::class, 'show'])->name('ogloszenie.show');
+// Wyświetlanie kartegorii, bez middleware, aby goście mogli zobaczyć
+Route::get('kategoria/{category}', [CategoryController::class, 'show'])->name('category.show');
 
-    Route::get('category/{category}', [AnnouncementController::class, 'category'])->name('category');
+// Wszystko co potrzebuje zalogowania i weryfikacji
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Użytkownicy
+    Route::resource('uzytkownik', UserController::class, ['parameters' => ['uzytkownik' => 'user'], 'except' => ['hide', 'destroy']]);
+    Route::get('uzytkownik/{user}/addReputation', [UserController::class, 'addReputation'])->name('uzytkownik.addReputation');
+    Route::post('uzytkownik/updateContact', [UserController::class, 'updateContact'])->name('uzytkownik.updateContact');
+
+    // Ogłoszenia
+    Route::get('ogloszenie/dodaj', [AnnouncementController::class, 'create'])->name('announcement.create');
+    Route::post('ogloszenie/store', [AnnouncementController::class, 'store'])->name('announcement.store');
+    Route::put('ogloszenie/{announcement}/put', [AnnouncementController::class, 'put'])->name('announcement.put');
+    Route::delete('ogloszenie/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcement.destroy');
+    Route::get('ogloszenie/{announcement}', [AnnouncementController::class, 'show'])->name('announcement.show');
 });
 
-Route::prefix('category')->as('category.')->group(function () {
-    Route::get('{category}', [CategoryController::class, 'show'])->name('show');
+// Wszystko co potrzebuje admin
+route::middleware(['auth', 'admin'])->group(function () {
+    // Użytkownicy
+    Route::delete('uzytkownik/{user}/destroy', [UserController::class, 'destroy'])->name('uzytkownik.destroy');
+    Route::post('uzytkownik/{user}/hide', [UserController::class, 'hideAnnouncements'])->name('uzytkownik.hide');
+    Route::post('uzytkownik/{user}/scammer', [UserController::class, 'markAsScammer'])->name('uzytkownik.scammer');
+
+    // Kategorie
+    Route::get('admin/kategoria', [CategoryController::class, 'adminIndex'])->name('admin.category.index');
+    Route::post('admin/kategoria/store', [CategoryController::class, 'store'])->name('admin.category.store');
+    Route::delete('admin/kategoria/{category}/destroy', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
+    Route::put('admin/kategoria/{category}/put', [CategoryController::class, 'put'])->name('admin.category.put');
 });
-
-

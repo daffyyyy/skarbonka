@@ -11,6 +11,11 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'announcements_category';
+    protected $fillable = [
+        'name',
+        'url',
+        'image',
+    ];
 
     public function getRouteKeyName()
     {

@@ -56,6 +56,7 @@ body {
   line-height: 1.6;
   color: #212529;
   background-color: #f8fafc;
+  background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -23763,7 +23764,6 @@ i.flag-zw:before, i.flag-zimbabwe:before {
 }
 
 .valid-feedback {
-  position: absolute;
   display: none;
   width: auto;
   margin-top: 0.25rem;
@@ -23773,7 +23773,6 @@ i.flag-zw:before, i.flag-zimbabwe:before {
 }
 
 .valid-tooltip {
-  position: absolute;
   top: 100%;
   z-index: 5;
   display: none;
@@ -23885,7 +23884,6 @@ input[type=file].form-control.is-valid:focus-within ~ .form-file-label .form-fil
 }
 
 .invalid-feedback {
-  position: absolute;
   display: none;
   width: auto;
   margin-top: 0.25rem;
@@ -23895,7 +23893,6 @@ input[type=file].form-control.is-valid:focus-within ~ .form-file-label .form-fil
 }
 
 .invalid-tooltip {
-  position: absolute;
   top: 100%;
   z-index: 5;
   display: none;

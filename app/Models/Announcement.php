@@ -19,6 +19,7 @@ class Announcement extends Model
         'cost',
         'contact',
         'category_id',
+        'type',
         'slug',
     ];
 
@@ -26,11 +27,6 @@ class Announcement extends Model
     {
         return 'slug';
     }
-
-    // public function getContactAttribute($value)
-    // {
-    //     return nl2br(e(strip_tags($value)), false);
-    // }
 
     public function category()
     {

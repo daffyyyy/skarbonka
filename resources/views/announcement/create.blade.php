@@ -3,11 +3,18 @@
 @section('title')Dodaj ogłoszenie @endsection
 
 @section('content')
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('ogloszenie.store') }}">
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+
+                    @if (auth()->user()->announcements->count() >= 5)
+                        <div class="alert alert-danger" role="alert">
+                            Maksymalna ilość ogłoszeń wynosi <span class="badge bg-dark text-white fs-7">5</span>
+                        </div>
+                    @else
+                        <form method="POST" action="{{ route('announcement.store') }}">
+
                             @csrf
 
                             <div class="mb-3">
@@ -25,7 +32,7 @@
 
                             <div class="mb-3">
                                 <label for="description"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Opis') }}</label>
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Opis') }} <sup class="text-muted">(VIP może używać HTML)</sup></label>
 
                                 <textarea id="description" type="text"
                                     class="form-control @error('description') is-invalid @enderror" name="description"
@@ -40,7 +47,7 @@
 
                             <div class="mb-3">
                                 <label for="contact"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Kontakt') }}</label>
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Kontakt') }} <sup class="text-muted">(VIP może używać HTML)</sup></label>
 
                                 <textarea id="contact" type="text"
                                     class="form-control @error('contact') is-invalid @enderror" name="contact" required
@@ -57,8 +64,16 @@
                                 <label for="amount"
                                     class="col-md-4 col-form-label text-md-right">{{ __('Ilość') }}</label>
 
-                                <input id="amount" type="number" class="form-control @error('amount') is-invalid @enderror"
-                                    name="amount" value="{{ old('amount') }}" required autofocus>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="addon-wrapping">$</span>
+                                    <input id="amount" type="number"
+                                        class="form-control @error('amount') is-invalid @enderror" name="amount"
+                                        value="{{ old('amount') }}" autofocus>
+                                </div>
+
+                                <input type="checkbox" name="unlimited_amount" id="unlimited_amount" />
+                                <label for="unlimited_amount"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
                                 @error('amount')
                                     <span class="invalid-feedback" role="alert">
@@ -71,9 +86,16 @@
                                 <label for="cost"
                                     class="col-md-4 col-form-label text-md-right">{{ __('Cena za 1 WPLN') }}</label>
 
-                                <input id="cost" type="number" step=".01"
-                                    class="form-control @error('cost') is-invalid @enderror" name="cost"
-                                    value="{{ old('cost') }}" required autofocus>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="addon-wrapping">$</span>
+                                    <input id="cost" type="number" step=".01"
+                                        class="form-control @error('cost') is-invalid @enderror" name="cost"
+                                        value="{{ old('cost') }}" autofocus>
+                                </div>
+
+                                <input type="checkbox" name="unlimited_cost" id="unlimited_cost" />
+                                <label for="unlimited_cost"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
                                 @error('cost')
                                     <span class="invalid-feedback" role="alert">
@@ -83,12 +105,31 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="type"
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Typ') }}</label>
+
+                                <select id="type" type="number"
+                                    class="form-control @error('type') is-invalid @enderror" name="type"
+                                    required autofocus>
+                                    <option value="1">Kup</option>
+                                    <option value="2">Sprzedaj</option>
+                                </select>
+
+                                @error('type')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
                                 <label for="category_id"
                                     class="col-md-4 col-form-label text-md-right">{{ __('Kategoria') }}</label>
 
                                 <select id="category_id" type="number"
-                                    class="form-control @error('category_id') is-invalid @enderror" name="category_id" required
-                                    autofocus>
+                                    class="form-control @error('category_id') is-invalid @enderror" name="category_id"
+                                    required autofocus>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
@@ -101,14 +142,16 @@
                                 @enderror
                             </div>
 
-
                             <div class="row">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Dodaj') }}
                                 </button>
                             </div>
                         </form>
-                    </div>
+
+                    @endif
+
+                </div>
             </div>
         </div>
     </div>

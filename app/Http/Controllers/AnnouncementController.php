@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateAnnouncement;
+use App\Http\Requests\UpdateAnnouncement;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,10 +35,17 @@ class AnnouncementController extends Controller
         return view('announcement.show', compact('announcement'));
     }
 
+    public function put(Announcement $announcement, UpdateAnnouncement $request)
+    {
+        abort_if($announcement->user_id !== auth()->id(), 403);
+        $announcement->update($request->validated());
+        return redirect()->back()->with('success', 'Pomyślnie edytowałeś ogłoszenie.');
+    }
+
     public function destroy(Announcement $announcement)
     {
         abort_if($announcement->user_id !== auth()->id(), 403);
         $announcement->delete();
-        return redirect()->route('ogloszenie.index');
+        return redirect()->route('announcement.index')->with('success', 'Pomyślnie zakończyłeś ogłoszenie.');
     }
 }

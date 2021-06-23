@@ -15,14 +15,14 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('description');
-            $table->bigInteger('amount');
+            $table->bigInteger('amount')->nullable();
             $table->decimal('cost')->nullable();
             $table->string('contact');
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('announcements_category');
+            $table->foreign('category_id')->references('id')->on('announcements_category')->onDelete('cascade');
             $table->string('slug')->unique();
             $table->timestamps();
         });

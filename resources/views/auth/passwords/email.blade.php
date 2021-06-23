@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
+@section('title')Przypomnij hasło @endsection
+
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
@@ -15,6 +17,7 @@
                     @endif
 
                     <form method="POST" action="{{ route('password.email') }}">
+                        
                         @csrf
 
                         <div class="form-group row">
