@@ -106,10 +106,10 @@ class UserController extends Controller
 
     public function markAsScammer(User $user)
     {
-        $user->scammer = TRUE;
+        $user->scammer = !$user->scammer;
         $user->update();
 
-        return redirect()->back()->with('success', 'Oznaczyłeś użytkownika jako oszusta.');
+        return redirect()->back()->with('success', 'Zmieniłeś użytkownikowi status oszusta.');
     }
 
     public function addReputation(User $user)
@@ -124,4 +124,13 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Dodałeś użytkownikowi reputację.');
     }
+
+    public function setAsVip(User $user)
+    {
+        $user->is_vip = !$user->is_vip;
+        $user->update();
+
+        return redirect()->back()->with('success', 'Zmieniłeś użytkownikowi status vip\'a.');
+    }
+
 }

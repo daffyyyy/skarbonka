@@ -53,7 +53,7 @@
                                 </h5>
                                 <h6 class="text-bold">
                                     @if ($announcement->cost)
-                                        {{ $announcement->cost }} zł / 1 PLN PRZELICZNIK
+                                        {{ $announcement->cost }} zł / 1 WPLN PRZELICZNIK
                                     @else
                                         Bez przelicznika
                                     @endif
@@ -65,17 +65,14 @@
                             </div>
                             <div class="card-footer text-muted">
                                 {!! $announcement->user->scammer == true ? '<button class="btn btn-danger btn-sm mb-2"><i class="fas fa-exclamation-circle"></i> &nbsp;Użytkownik oznaczony jako oszust</button>' : '' !!}
-                                {!! $announcement->user->reputation >= 10 ? '<span class="badge bg-success"><i class="far fa-thumbs-up"></i> Dobra reputacja</span>' : '' !!}
-                                <br />
                                 <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span>
                                 &nbsp;
-                                przez <span class="fw-bold"><a
-                                        href="{{ route('uzytkownik.show', $announcement->user) }}">{{ $announcement->user->name }}</a></span>
-
+                                przez
+                                <span class="fw-bold">
+                                    {!! getUserName($announcement->user) !!}
+                                </span>
                             </div>
-
                         </div>
-
                     </div>
                 @endforeach
 

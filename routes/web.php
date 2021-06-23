@@ -51,6 +51,7 @@ route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('uzytkownik/{user}/destroy', [UserController::class, 'destroy'])->name('uzytkownik.destroy');
     Route::post('uzytkownik/{user}/hide', [UserController::class, 'hideAnnouncements'])->name('uzytkownik.hide');
     Route::post('uzytkownik/{user}/scammer', [UserController::class, 'markAsScammer'])->name('uzytkownik.scammer');
+    Route::post('uzytkownik/{user}/vip', [UserController::class, 'setAsVip'])->name('uzytkownik.vip');
 
     // Kategorie
     Route::get('admin/kategoria', [CategoryController::class, 'adminIndex'])->name('admin.category.index');

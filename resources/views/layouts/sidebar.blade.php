@@ -21,8 +21,8 @@
                 <p class="card-text">
                 <div class="text-center">
                     <p>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <form method="POST" action="{{ route('uzytkownik.destroy', $user) }}" class="form-inline">
+                    <div class="btn-group" role="group" aria-label="">
+                        <form method="POST" action="{{ route('uzytkownik.destroy', $user) }}" onsubmit="return confirm ('Czy jesteś pewny?')" class="form-inline">
                             @method("DELETE")
 
                             @csrf
@@ -30,7 +30,7 @@
                             <button type="submit" class="btn btn-danger btn-sm m-1"><i class="fas fa-minus-circle"></i>
                                 Usuń</button>
                         </form>
-                        <form method="POST" action="{{ route('uzytkownik.hide', $user) }}" class="form-inline">
+                        <form method="POST" action="{{ route('uzytkownik.hide', $user) }}" onsubmit="return confirm ('Czy jesteś pewny?')" class="form-inline">
 
                             @csrf
 
@@ -38,14 +38,22 @@
                                 ogłoszenia</button>
                         </form>
                     </div>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <form method="POST" action="{{ route('uzytkownik.scammer', $user) }}" class="form-inline">
+                    <div class="btn-group" role="group" aria-label="">
+                        <form method="POST" action="{{ route('uzytkownik.scammer', $user) }}" onsubmit="return confirm ('Czy jesteś pewny?')" class="form-inline">
 
                             @csrf
 
-                            <button type="submit" class="btn btn-warning btn-sm m-1"><i class="fas fa-stamp"></i>
+                            <button type="submit" class="btn btn-danger btn-sm m-1"><i class="fas fa-stamp"></i>
                                 Oznacz jako oszusta</button>
                         </form>
+                        <form method="POST" action="{{ route('uzytkownik.vip', $user) }}" class="form-inline">
+
+                            @csrf
+
+                            <button type="submit" class="btn btn-warning btn-sm m-1"><i class="far fa-gem"></i>
+                                Ustaw status VIP</button>
+                        </form>
+
                     </div>
                     </p>
                 </div>

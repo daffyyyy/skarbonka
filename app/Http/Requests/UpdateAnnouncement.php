@@ -35,22 +35,28 @@ class UpdateAnnouncement extends FormRequest
                 'string',
             ],
             'amount' => [
-                'required',
+                'required_unless:unlimited_amount,on',
                 'numeric',
+                'nullable',
+                'max:10000',
+            ],
+            'unlimited_amount' => [
+                'sometimes',
             ],
             'cost' => [
-                'required',
+                'required_unless:unlimited_cost,on',
                 'numeric',
+                'nullable',
+                'max:5',
+            ],
+            'unlimited_cost' => [
+                'sometimes',
             ],
             'contact' => [
                 'required',
                 'string',
                 'min:8',
                 'max:512',
-            ],
-            'cost' => [
-                'required',
-                'numeric',
             ],
         ];
     }

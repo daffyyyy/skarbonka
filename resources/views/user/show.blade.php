@@ -14,13 +14,21 @@
             <div class="row text-center justify-content-md-center">
                 <div class="col col-md-3 fs-5">
                     <i class="fas fa-thumbs-up"></i> Reputacja <span class="badge bg-success">{{ $user->reputation }} <a
-                            href="{{ route('uzytkownik.addReputation', $user) }}" class="text-white fs-5 text-center ">+</a>
+                            href="{{ route('uzytkownik.addReputation', $user) }}"
+                            class="text-white fs-5 text-center ">+</a>
                 </div>
                 <div class="col-md-auto">
-                    <span class="fs-1 fw-bold p-5">{{ $user->name }}
+                    <span class="fs-1 fw-bold p-5">
+                        {!! getUserName($user, false) !!}
+
+                        @if ($user->is_admin)
+                            <span class="badge bg-danger fs-6 align-middle"><i class="fas fa-shield-alt"></i> ADMIN</span>
+                        @endif
+
                         @if ($user->is_vip)
                             <span class="badge bg-warning fs-6 align-middle"><i class="far fa-gem"></i> VIP</span>
                         @endif
+
                         {!! $user->reputation >= 10 ? '<span class="badge bg-success fs-6 align-middle"><i class="far fa-thumbs-up"></i> Dobra reputacja</span>' : '' !!}
                     </span>
                 </div>

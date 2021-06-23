@@ -51,7 +51,7 @@
                                 </h5>
                                 <h6 class="text-bold">
                                     @if ($announcement->cost)
-                                        {{ $announcement->cost }} zł / 1 PLN PRZELICZNIK
+                                        {{ $announcement->cost }} zł / 1 WPLN PRZELICZNIK
                                     @else
                                         Bez przelicznika
                                     @endif
@@ -66,12 +66,9 @@
                                 <br />
                                 <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span>
                                 &nbsp;
-                                przez <span class="fw-bold"><a
-                                        href="{{ route('uzytkownik.show', $announcement->user) }}">{{ $announcement->user->name }}</a>
-                                    @if ($announcement->user->is_vip)
-                                        <span class="badge bg-warning"><i class="far fa-gem"></i> VIP</span>
-                                    @endif
-                                    {!! $announcement->user->reputation >= 10 ? '<span class="badge bg-success"><i class="far fa-thumbs-up"></i> Dobra reputacja</span>' : '' !!}
+                                przez
+                                <span class="fw-bold">
+                                    {!! getUserName($announcement->user) !!}
                                 </span>
 
                             </div>

@@ -11,13 +11,10 @@
                         oznaczony jako oszust</button>
                 </div>
             @endif
-            <div class="text-center border p-2">dodane przez <span class="fw-bold"><a
-                        href="{{ route('uzytkownik.show', $announcement->user) }}">{{ $announcement->user->name }}</a>
-                    @if ($announcement->user->is_vip)
-                        <span class="badge bg-warning"><i class="far fa-gem"></i> VIP</span>
-                    @endif
+            <div class="text-center border p-2">dodane przez
+                <span class="fw-bold">
+                    {!! getUserName($announcement->user) !!}
                 </span>
-                {!! $announcement->user->reputation >= 10 ? '<span class="badge bg-success"><i class="far fa-thumbs-up"></i> Dobra reputacja</span>' : '' !!}
                 <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span>
             </div>
 
@@ -35,7 +32,12 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-header mb-3 fw-bold">Informacje</h3>
-                            <h4 class="card-title">{{ $announcement->title }}</h4>
+                            <h4 class="card-title">
+                                {!! $announcement->type === 1 ? '<span class="badge bg-success">Kupię</span>' : '<span class="badge bg-info">Sprzedam</span>' !!}
+                                <br />
+                                <br />
+                                {{ $announcement->title }}
+                            </h4>
                             <p class="card-text">
                                 @if ($announcement->user->is_vip)
                                     {!! nl2br($announcement->description) !!}
@@ -58,7 +60,7 @@
                                 </h5>
                                 <h5 class="text-bold"><span class="badge bg-success text-light">
                                         @if ($announcement->cost)
-                                            {{ $announcement->cost }} zł / 1 PLN
+                                            {{ $announcement->cost }} zł / 1 WPLN
                                         @else
                                             Brak
                                         @endif
@@ -73,7 +75,7 @@
                             </p>
                         </div>
                     </div>
-                    @if ($announcement->user_id === auth()->id())
+                    @if ($announcement->user_id === auth()->id() || auth()->user()->is_admin)
                         <div class="row mt-3">
                             <div class="d-flex justify-content-center">
                                 <div class="card-header">Akcje</div>
@@ -81,7 +83,7 @@
                                 <button data-bs-toggle="modal" data-bs-target="#editAnnon"
                                     class="btn btn-warning">Edytuj</button>
                                 <form method="POST" action="{{ route('announcement.destroy', $announcement) }}"
-                                    class="row g-1">
+                                    onsubmit="return confirm ('Czy jesteś pewny?')" class="row g-1">
                                     @method('DELETE')
 
                                     @csrf
@@ -103,7 +105,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editAnnon">Modal title</h5>
+                    <h5 class="modal-title" id="editAnnon">Edytuj ogłoszenie</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -157,14 +159,17 @@
                         </div>
 
                         <div class="mb-3">
-
                             <label for="amount" class="col-md-4 col-form-label text-md-right">{{ __('Ilość') }}</label>
 
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="addon-wrapping">$</span>
                                 <input id="amount" type="number" class="form-control @error('amount') is-invalid @enderror"
-                                    name="amount" value="{{ $announcement->amount }}" required autofocus>
+                                    name="amount" value="{{ $announcement->amount }}" autofocus>
                             </div>
+
+                            <input type="checkbox" name="unlimited_amount" id="unlimited_amount" />
+                            <label for="unlimited_amount"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
                             @error('amount')
                                 <span class="invalid-feedback" role="alert">
@@ -181,8 +186,12 @@
                                 <span class="input-group-text" id="addon-wrapping">$</span>
                                 <input id="cost" type="number" step=".01"
                                     class="form-control @error('cost') is-invalid @enderror" name="cost"
-                                    value="{{ $announcement->cost }}" required autofocus>
+                                    value="{{ $announcement->cost }}" autofocus>
                             </div>
+
+                            <input type="checkbox" name="unlimited_cost" id="unlimited_cost" />
+                            <label for="unlimited_cost"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
                             @error('cost')
                                 <span class="invalid-feedback" role="alert">
