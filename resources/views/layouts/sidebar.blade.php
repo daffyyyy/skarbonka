@@ -67,7 +67,7 @@
         <div class="card-body">
             <p class="card-text text-center">
                 @if ($user->is_vip)
-                    {!! $user->contact ? nl2br($user->contact) : 'Użytkownik nie uzupełnił jeszcze pola kontaktu.' !!}
+                    {!! $user->contact ? $user->contact : 'Użytkownik nie uzupełnił jeszcze pola kontaktu.' !!}
                 @else
                     {!! $user->contact ? nl2br(strip_tags($user->contact)) : 'Użytkownik nie uzupełnił jeszcze pola kontaktu.' !!}
                 @endif

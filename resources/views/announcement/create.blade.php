@@ -31,12 +31,13 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="description"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Opis') }} <sup class="text-muted">(VIP może używać HTML)</sup></label>
+                                <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Opis') }}
+                                    <sup class="text-muted">(VIP może używać HTML)</sup></label>
 
                                 <textarea id="description" type="text"
-                                    class="form-control @error('description') is-invalid @enderror" name="description"
-                                    required autocomplete="description" autofocus>{{ old('description') }}</textarea>
+                                    class="form-control @error('description') is-invalid @enderror tinymce-editor"
+                                    name="description" autocomplete="description" rows="4"
+                                    cols="20">{{ old('description') }}</textarea>
 
                                 @error('description')
                                     <span class="invalid-feedback" role="alert">
@@ -46,12 +47,13 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="contact"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Kontakt') }} <sup class="text-muted">(VIP może używać HTML)</sup></label>
+                                <label for="contact" class="col-md-4 col-form-label text-md-right">{{ __('Kontakt') }}
+                                    <sup class="text-muted">(VIP może używać HTML)</sup></label>
 
                                 <textarea id="contact" type="text"
-                                    class="form-control @error('contact') is-invalid @enderror" name="contact" required
-                                    autocomplete="contact" autofocus>{{ old('contact') }}</textarea>
+                                    class="form-control @error('contact') is-invalid @enderror tinymce-editor"
+                                    name="contact" autocomplete="contact" rows="4"
+                                    cols="20">{{ old('contact') }}</textarea>
 
                                 @error('contact')
                                     <span class="invalid-feedback" role="alert">
@@ -73,7 +75,7 @@
 
                                 <input type="checkbox" name="unlimited_amount" id="unlimited_amount" />
                                 <label for="unlimited_amount"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
                                 @error('amount')
                                     <span class="invalid-feedback" role="alert">
@@ -95,7 +97,7 @@
 
                                 <input type="checkbox" name="unlimited_cost" id="unlimited_cost" />
                                 <label for="unlimited_cost"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
                                 @error('cost')
                                     <span class="invalid-feedback" role="alert">
@@ -105,12 +107,10 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="type"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Typ') }}</label>
+                                <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Typ') }}</label>
 
-                                <select id="type" type="number"
-                                    class="form-control @error('type') is-invalid @enderror" name="type"
-                                    required autofocus>
+                                <select id="type" type="number" class="form-control @error('type') is-invalid @enderror"
+                                    name="type" required autofocus>
                                     <option value="1">Kup</option>
                                     <option value="2">Sprzedaj</option>
                                 </select>
@@ -156,3 +156,27 @@
         </div>
     </div>
 @endsection
+
+@if (auth()->user()->is_admin || auth()->user()->is_vip)
+
+@section('scripts')
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'textarea.tinymce-editor',
+            language: 'pl',
+            height: 300,
+            forced_root_block : false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+        });
+    </script>
+@endsection
+
+@endif

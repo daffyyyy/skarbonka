@@ -49,7 +49,7 @@
 
                                     @csrf
 
-                                    <textarea name="contact" class="form-control">{{ $user->contact }}</textarea>
+                                    <textarea name="contact" class="form-control tinymce-editor">{{ $user->contact }}</textarea>
                                     <button type="submit" class="btn btn-primary btn-sm mt-2">Zapisz</button>
                                 </form>
 
@@ -69,7 +69,7 @@
                             <div class="card-header">
                                 <img src="{{ $announcement->category()->image }}" class="img-fluid" height="300"
                                     width="300" />
-                                Hosting <a href="{{ $announcement->category()->url }}"><span
+                                Kategoria <a href="{{ $announcement->category()->url }}"><span
                                         class="fw-bold">{{ Str::upper($announcement->category()->name) }}</span></a>
                             </div>
                             <div class="card-body">
@@ -108,3 +108,27 @@
         </div>
     </div>
 @endsection
+
+@if (auth()->user()->is_admin || auth()->user()->is_vip)
+
+@section('scripts')
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'textarea.tinymce-editor',
+            language: 'pl',
+            height: 300,
+            forced_root_block : false,  
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+        });
+    </script>
+@endsection
+
+@endif

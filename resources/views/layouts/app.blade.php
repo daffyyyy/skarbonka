@@ -153,6 +153,8 @@
 
     @include('layouts.footer')
 
+    <script src="https://cdn.tiny.cloud/1/v5ln3exyxdyeo0qb6sm4gr2juuuqjrvtkdzbu9pz5m7vxncc/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
     @yield('scripts')
 </body>
 

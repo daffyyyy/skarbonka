@@ -27,7 +27,7 @@
                             <div class="card-header">
                                 <img src="{{ $announcement->category()->image }}" class="img-fluid" height="300"
                                     width="300" />
-                                Hosting <a href="{{ $announcement->category()->url }}"><span
+                                Kategoria <a href="{{ $announcement->category()->url }}"><span
                                         class="fw-bold">{{ Str::upper($announcement->category()->name) }}</span></a>
                             </div>
                             <div class="card-body">

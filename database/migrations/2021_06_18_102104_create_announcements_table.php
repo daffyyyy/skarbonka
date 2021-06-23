@@ -17,10 +17,10 @@ class CreateAnnouncementsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
             $table->bigInteger('amount')->nullable();
             $table->decimal('cost')->nullable();
-            $table->string('contact');
+            $table->longText('contact');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('announcements_category')->onDelete('cascade');
             $table->string('slug')->unique();

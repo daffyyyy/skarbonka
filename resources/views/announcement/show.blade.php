@@ -27,7 +27,7 @@
                             <img src="{{ $announcement->category()->image }}" class="img-fluid" height="500"
                                 width="500" />
                             <br />
-                            Hosting <a href="{{ $announcement->category()->url }}"><span
+                            Kategoria <a href="{{ $announcement->category()->url }}"><span
                                     class="fw-bold">{{ Str::upper($announcement->category()->name) }}</span></a>
                         </div>
                         <div class="card-body">
@@ -147,8 +147,8 @@
                             <label for="contact"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Kontakt') }}</label>
 
-                            <textarea id="contact" type="text" class="form-control @error('contact') is-invalid @enderror"
-                                name="contact" required autocomplete="contact"
+                            <textarea id="contact" type="text" class="form-control @error('contact') is-invalid @enderror tinymce-editor"
+                                name="contact" autocomplete="contact"
                                 autofocus>{{ $announcement->contact }}</textarea>
 
                             @error('contact')
@@ -212,6 +212,27 @@
 
 @endsection
 
-@section('scripts')
+@if (auth()->user()->is_admin || auth()->user()->is_vip)
 
+@section('scripts')
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'textarea.tinymce-editor',
+            language: 'pl',
+            height: 300,
+            forced_root_block : false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+        });
+    </script>
 @endsection
+
+@endif
+
