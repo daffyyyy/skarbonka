@@ -68,9 +68,9 @@
                             </div>
                             <h3 class="card-header mb-3 fw-bold">Kontakt</h3>
                             @if ($announcement->user->is_vip)
-                                {!! nl2br($announcement->contact) !!}
+                                {!! nl2br(linkify($announcement->contact)) !!}
                             @else
-                                {!! nl2br(strip_tags($announcement->contact)) !!}
+                                {!! nl2br(linkify(strip_tags($announcement->contact))) !!}
                             @endif
                             </p>
                         </div>
