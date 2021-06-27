@@ -25,6 +25,10 @@ class AnnouncementController extends Controller
 
     public function store(CreateAnnouncement $request)
     {
+        if (!canAddAnnouncement(auth()->user())) {
+            return redirect()->back()->with('error', 'Nie możesz utworzyć więcej ogłoszeń.');
+        }
+        
         $validated = $request->validated();
 
         if (isset($validated['unlimited_amount']))

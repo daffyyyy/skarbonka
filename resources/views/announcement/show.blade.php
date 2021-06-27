@@ -68,7 +68,7 @@
                             </div>
                             <h3 class="card-header mb-3 fw-bold">Kontakt</h3>
                             @if ($announcement->user->is_vip)
-                                {!! nl2br(linkify($announcement->contact)) !!}
+                                {!! nl2br($announcement->contact) !!}
                             @else
                                 {!! nl2br(linkify(strip_tags($announcement->contact))) !!}
                             @endif
@@ -101,8 +101,8 @@
 
 
     {{-- Modals --}}
-    <div class="modal fade" id="editAnnon" tabindex="-1" aria-labelledby="editAnnon" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="editAnnon" tabindex="" aria-labelledby="editAnnon" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editAnnon">Edytuj ogłoszenie</h5>
@@ -133,8 +133,9 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Opis') }}</label>
 
                             <textarea id="description" type="text"
-                                class="form-control @error('description') is-invalid @enderror" name="description" required
-                                autocomplete="description" autofocus>{{ $announcement->description }}</textarea>
+                                class="form-control @error('description') is-invalid @enderror tinymce-editor"
+                                name="description" required autocomplete="description"
+                                autofocus>{{ $announcement->description }}</textarea>
 
                             @error('description')
                                 <span class="invalid-feedback" role="alert">
@@ -147,9 +148,9 @@
                             <label for="contact"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Kontakt') }}</label>
 
-                            <textarea id="contact" type="text" class="form-control @error('contact') is-invalid @enderror tinymce-editor"
-                                name="contact" autocomplete="contact"
-                                autofocus>{{ $announcement->contact }}</textarea>
+                            <textarea id="contact" type="text"
+                                class="form-control @error('contact') is-invalid @enderror tinymce-editor" name="contact"
+                                autocomplete="contact" autofocus>{{ $announcement->contact }}</textarea>
 
                             @error('contact')
                                 <span class="invalid-feedback" role="alert">
@@ -167,7 +168,7 @@
                                     name="amount" value="{{ $announcement->amount }}" autofocus>
                             </div>
 
-                            <input type="checkbox" name="unlimited_amount" id="unlimited_amount" />
+                            <input type="checkbox" name="unlimited_amount" id="unlimited_amount" @if (!$announcement->amount) checked @endif />
                             <label for="unlimited_amount"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
@@ -189,7 +190,7 @@
                                     value="{{ $announcement->cost }}" autofocus>
                             </div>
 
-                            <input type="checkbox" name="unlimited_cost" id="unlimited_cost" />
+                            <input type="checkbox" name="unlimited_cost" id="unlimited_cost" @if (!$announcement->cost) checked @endif />
                             <label for="unlimited_cost"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Bez limitu') }}</label>
 
@@ -214,25 +215,30 @@
 
 @if (auth()->user()->is_admin || auth()->user()->is_vip)
 
-@section('scripts')
-    <script type="text/javascript">
-        tinymce.init({
-            selector: 'textarea.tinymce-editor',
-            language: 'pl',
-            height: 300,
-            forced_root_block : false,
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-            ],
-            toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-        });
-    </script>
-@endsection
+    @section('scripts')
+    
+        <script type="text/javascript">
+            tinymce.init({
+                selector: 'textarea.tinymce-editor',
+                language: 'pl',
+                height: 300,
+                forced_root_block: false,
+                image_class_list: [
+                    { title: 'Responsive', value: 'img-fluid' }
+                ],
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+            });
+            $('iframe').addClass('embed-responsive embed-responsive-1by1');
+        </script>
+
+    @endsection
 
 @endif
-

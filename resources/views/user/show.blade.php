@@ -18,7 +18,7 @@
                             class="text-white fs-5 text-center ">+</a>
                 </div>
                 <div class="col-md-auto">
-                    <span class="fs-1 fw-bold p-5">
+                    <span class="fs-1 fw-bold">
                         {!! getUserName($user, false) !!}
 
                         @if ($user->is_admin)
@@ -27,6 +27,10 @@
 
                         @if ($user->is_vip)
                             <span class="badge bg-warning fs-6 align-middle"><i class="far fa-gem"></i> VIP</span>
+                        @endif
+
+                        @if ($user->is_bot)
+                            <span class="badge bg-info fs-6 align-middle"><i class="fas fa-robot"></i> BOT</span>
                         @endif
 
                         {!! $user->reputation >= 10 ? '<span class="badge bg-success fs-6 align-middle"><i class="far fa-thumbs-up"></i> Dobra reputacja</span>' : '' !!}
@@ -49,7 +53,8 @@
 
                                     @csrf
 
-                                    <textarea name="contact" class="form-control tinymce-editor">{{ $user->contact }}</textarea>
+                                    <textarea name="contact"
+                                        class="form-control tinymce-editor">{{ $user->contact }}</textarea>
                                     <button type="submit" class="btn btn-primary btn-sm mt-2">Zapisz</button>
                                 </form>
 
@@ -111,24 +116,31 @@
 
 @if (auth()->user()->is_admin || auth()->user()->is_vip)
 
-@section('scripts')
-    <script type="text/javascript">
-        tinymce.init({
-            selector: 'textarea.tinymce-editor',
-            language: 'pl',
-            height: 300,
-            forced_root_block : false,  
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-            ],
-            toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-        });
-    </script>
-@endsection
+    @section('scripts')
+
+        <script type="text/javascript">
+            tinymce.init({
+                selector: 'textarea.tinymce-editor',
+                language: 'pl',
+                height: 300,
+                forced_root_block: false,
+                image_class_list: [{
+                    title: 'Responsive',
+                    value: 'img-fluid'
+                }],
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+            });
+            $('iframe').addClass('embed-responsive embed-responsive-1by1');
+        </script>
+
+    @endsection
 
 @endif

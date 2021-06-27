@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    @if (auth()->user()->announcements->count() >= 5)
+                    @if (!canAddAnnouncement(auth()->user()))
                         <div class="alert alert-danger" role="alert">
                             Maksymalna ilość ogłoszeń wynosi <span class="badge bg-dark text-white fs-7">5</span>
                         </div>
@@ -159,24 +159,31 @@
 
 @if (auth()->user()->is_admin || auth()->user()->is_vip)
 
-@section('scripts')
-    <script type="text/javascript">
-        tinymce.init({
-            selector: 'textarea.tinymce-editor',
-            language: 'pl',
-            height: 300,
-            forced_root_block : false,
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-            ],
-            toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-        });
-    </script>
-@endsection
+    @section('scripts')
+
+        <script type="text/javascript">
+            tinymce.init({
+                selector: 'textarea.tinymce-editor',
+                language: 'pl',
+                height: 300,
+                forced_root_block: false,
+                image_class_list: [{
+                    title: 'Responsive',
+                    value: 'img-fluid'
+                }],
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+            });
+            $('iframe').addClass('embed-responsive embed-responsive-1by1');
+        </script>
+
+    @endsection
 
 @endif
