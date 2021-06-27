@@ -1,62 +1,36 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# skarbonka
+## Wystawiaj i przeglądaj ogłoszenia sprzedaży wirtualnej gotówki
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Strona pozwala na zamieszczanie ogłoszeń sprzedaży wirtualnej gotówki w różnych serwisach (docelowo hostingi serwerów gier)
 
-## About Laravel
+- Proste
+- Szybkie
+- Darmowe
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funkcjonalności
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- System logowania / rejestracji
+- System profili i reputacji użytkowników
+- Konta VIP (Pozwalają na używanie edytora TinyMCE)
+- Lista ogłoszeń
+- Lista kategorii
+- Dodawanie ogłoszeń
+- Zarządzanie kategoriami (Panel administratora)
+- Oznaczanie jako uszusta / Usuwanie użytkownika / Ukrywanie ogłoszeń / Nadawanie statusu VIP (Administrator)
+- Oznaczenie ogłoszeń od użytkowników uznanych za oszustów
+- Lista użytkowników i ich edycja (TODO)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Live
 
-## Learning Laravel
+Serwis jest dostępny pod adresem [skarbonka.club](https://skarbonka.club)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![Strona główna](https://i.imgur.com/hL7hRDr.png)
+![Lista ogłoszeń](https://i.imgur.com/cDgWb65.png)
+![Lista ogłoszeń w kategorii](https://i.imgur.com/dEExWt2.png)
+![Ogłoszenie](https://i.imgur.com/A8s6iSG.png)
+![Dodawanie ogłoszenia)](https://i.imgur.com/c8yiNEI.png)
+![Profil użytkownika)](https://i.imgur.com/uf9raUv.png)
+![Zarządzanie kategoriami)](https://i.imgur.com/7vvmrXp.png)
+![Ogłoszenie oszusta](https://i.imgur.com/g8XpSac.png)
+![Widok oszusta](https://i.imgur.com/8SrgtdP.png)
