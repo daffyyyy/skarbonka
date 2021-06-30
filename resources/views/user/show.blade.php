@@ -19,6 +19,10 @@
                 </div>
                 <div class="col-md-auto">
                     <span class="fs-1 fw-bold">
+                        @if (isset($user->avatar))
+                            {!! getUserAvatar($user, false, true) !!}
+                            <br />
+                        @endif
                         {!! getUserName($user, false) !!}
 
                         @if ($user->is_admin)

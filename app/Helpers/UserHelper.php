@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-function GetUserName(User $user, bool $badges = true): string
+function getUserName(User $user, bool $badges = true): string
 {
     $name = '<a href="' . route('uzytkownik.show', $user) . '">' . $user->name . '</a>';
     if ($badges) {
@@ -20,6 +20,17 @@ function GetUserName(User $user, bool $badges = true): string
         }
     }
     return $name;
+}
+
+function getUserAvatar(User $user, $profileLink = true, $lightbox = false, $width = 125, $height = 125): string
+{
+    $avatar = $user->avatar;
+
+    if (!$profileLink && $lightbox) {
+        return '<a href="' . $avatar . '" data-lightbox="avatar"><img src="' . $avatar . '" class="rounded-circle border shadow-4" style="width: ' . $width . 'px; height: ' . $height . 'px;" /></a>';
+    }
+
+    return '<a href="' . route('uzytkownik.show', $user) . '"><img src="' . $avatar . '" class="rounded-circle border shadow-4" style="width: ' . $width . 'px; height: ' . $height . 'px;" /></a>';
 }
 
 function canAddAnnouncement(User $user): bool

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUser;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -54,6 +55,12 @@ class UserController extends Controller
         return view('user.show', compact(['user', 'announcements', 'announcements_active']));
     }
 
+    public function settings()
+    {
+        $user = auth()->user();
+        return view('user.settings', compact('user'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -72,9 +79,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request)
     {
-        //
+        $validated = $request->validated();
+        if($request->hasFile('avatar')){
+           $validated['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        $user = User::find(auth()->id());
+        $user->update($validated);
+
+        return redirect()->back()->with('success', 'Pomyślnie edytowano ustawienia.');
     }
 
     public function updateContact(Request $request)

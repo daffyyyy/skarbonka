@@ -13,6 +13,7 @@
             @endif
             <div class="text-center border p-2">dodane przez
                 <span class="fw-bold">
+                    {!! getUserAvatar($announcement->user, true, false, 32, 32) !!}
                     {!! getUserName($announcement->user) !!}
                 </span>
                 <span class="badge bg-dark">{{ $announcement->created_at->diffForHumans() }}</span>

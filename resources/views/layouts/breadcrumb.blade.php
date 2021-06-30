@@ -35,7 +35,11 @@
                     @break
                     @case('uzytkownik')
                         <li class="breadcrumb-item"><a href="#">Użytkownicy</a></li>
-                        <li class="breadcrumb-item active fw-bold">{{ $user->name }}</li>
+                        @if (Request::segment(2))
+                            <li class="breadcrumb-item active fw-bold">Ustawienia</li>
+                        @else
+                            <li class="breadcrumb-item active fw-bold">{{ $user->name }}</li>
+                        @endif
                     @break
                     @case('admin')
                         @if (Request::segment(2))

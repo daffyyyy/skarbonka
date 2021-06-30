@@ -33,9 +33,11 @@ Route::get('kategoria/{category}', [CategoryController::class, 'show'])->name('c
 // Wszystko co potrzebuje zalogowania i weryfikacji
 Route::middleware(['auth', 'verified'])->group(function () {
     // Użytkownicy
-    Route::resource('uzytkownik', UserController::class, ['parameters' => ['uzytkownik' => 'user'], 'except' => ['hide', 'destroy']]);
+    Route::get('uzytkownik/ustawienia', [UserController::class, 'settings'])->name('uzytkownik.settings');
+    Route::resource('uzytkownik', UserController::class, ['parameters' => ['uzytkownik' => 'user'], 'except' => ['hide', 'destroy', 'update']]);
     Route::get('uzytkownik/{user}/addReputation', [UserController::class, 'addReputation'])->name('uzytkownik.addReputation');
     Route::post('uzytkownik/updateContact', [UserController::class, 'updateContact'])->name('uzytkownik.updateContact');
+    Route::put('uzytkownik/update', [UserController::class, 'update'])->name('uzytkownik.update');
 
     // Ogłoszenia
     Route::get('ogloszenie/dodaj', [AnnouncementController::class, 'create'])->name('announcement.create');

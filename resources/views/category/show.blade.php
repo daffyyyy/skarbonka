@@ -69,6 +69,8 @@
                                 &nbsp;
                                 przez
                                 <span class="fw-bold">
+                                    <br />
+                                    {!! getUserAvatar($announcement->user, true, false, 32, 32) !!}
                                     {!! getUserName($announcement->user) !!}
                                 </span>
                             </div>
