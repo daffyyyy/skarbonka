@@ -38,7 +38,8 @@ class UpdateUser extends FormRequest
                 'string',
                 'confirmed',
                 'required',
-                'min:6',
+                'min:8',
+
             ]
         ];
     }
